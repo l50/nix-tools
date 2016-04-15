@@ -39,7 +39,11 @@ def file_search(options)
   files_found = []
   Find.find(options[:source_dir]) do |path|
     puts path if options[:verbose] == true
-    files_found << path if /#{options[:file]}/.match(path)
+    begin
+        files_found << path if /#{options[:file]}/.match(path)
+    rescue Exception => e
+        puts "Bizarre filename detected, skipping and moving on."
+    end
   end
   return files_found
 end
